@@ -1,0 +1,27 @@
+eureka:
+  client:
+    enabled: false
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  application:
+    name: ordering-service
+  redis:
+    host: redis-service.deploy-test-data.svc.cluster.local
+    port: 6379
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql-master-0.mysql-master.deploy-test-data.svc.cluster.local:3306/ordermsa?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: rootpass
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+    show_sql: true
+  kafka:
+    bootstrap-servers: kafka-service.deploy-test-data.svc.cluster.local:9092
