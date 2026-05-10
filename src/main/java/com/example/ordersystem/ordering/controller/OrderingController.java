@@ -3,6 +3,7 @@ package com.example.ordersystem.ordering.controller;
 import com.example.ordersystem.ordering.domain.Ordering;
 import com.example.ordersystem.ordering.dto.OrderCreateDto;
 import com.example.ordersystem.ordering.service.OrderingService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 public class OrderingController {
     private final OrderingService orderingService;
 
+    @Value("${app.version}")
+    private String version;
+
     public OrderingController(OrderingService orderingService) {
         this.orderingService = orderingService;
     }
@@ -20,6 +24,11 @@ public class OrderingController {
     public ResponseEntity<?> orderCreate(@RequestBody OrderCreateDto dtos, @RequestHeader("X-User-Id") String userId ){
         Ordering ordering = orderingService.orderFeignKafkaCreate(dtos, userId);
         return new ResponseEntity<>(ordering.getId(), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/version")
+    public String version() {
+        return version;
     }
 
 }
